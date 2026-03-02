@@ -1,0 +1,76 @@
+// 1. Переменные (Требование: минимум 2)
+$primary-color: #3498db;
+$secondary-color: #2c3e50;
+$card-padding: 20px;
+$border-radius: 8px;
+
+// 2. Миксин (Требование: минимум 1)
+// Миксин для стилизации кнопки с передачей цвета фона
+@mixin button-style($bg-color) {
+    padding: 10px 20px;
+    background-color: $bg-color;
+    color: #ffffff;
+    border: none;
+    border-radius: $border-radius;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+
+    &:hover {
+        background-color: darken($bg-color, 10%);
+    }
+}
+
+// 3. Вложенная структура селекторов (Требование: использование вложенности)
+.product-card {
+    border: 1px solid #e0e0e0;
+    border-radius: $border-radius;
+    padding: $card-padding;
+    max-width: 350px;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+
+    // Вложенный элемент: обертка изображения
+    &__image-wrapper {
+        margin-bottom: $card-padding;
+        overflow: hidden;
+        border-radius: $border-radius;
+    }
+
+    // Вложенный элемент: изображение
+    &__image {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    // Вложенный элемент: контент
+    &__content {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        // Вложенный элемент: заголовок
+        &__title {
+            color: $secondary-color;
+            font-size: 22px;
+            margin: 0;
+        }
+
+        // Вложенный элемент: описание
+        &__description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        // Вложенный элемент: кнопка
+        &__btn {
+            // Подключение миксина
+            @include button-style($primary-color);
+            margin-top: 10px;
+            align-self: flex-start;
+        }
+    }
+}
