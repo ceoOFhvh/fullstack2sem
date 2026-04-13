@@ -1,0 +1,34 @@
+# === ИГНОРИРУЕМ (мусор) ===
+
+# Node modules ВЕЗДЕ (самое важное!)
+node_modules/
+
+# Папки сборки фронтенда (генерируются автоматически)
+dist/
+build/
+out/
+.next/
+
+# Логи и временные файлы
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Файлы карт стилей (не нужны в репо)
+*.map
+
+# Системные файлы ОС
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE настройки (личные, не нужны другим)
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Переменные окружения (секреты)
+.env
+.env.local
