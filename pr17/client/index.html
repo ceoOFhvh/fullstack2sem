@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PR17: Reminders + Push</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#007bff">
+    <style>
+        body { 
+            font-family: sans-serif; 
+            max-width: 600px; 
+            margin: 2rem auto; 
+            padding: 0 1rem; 
+            background-color: #f4f4f9;
+        }
+        
+        h1 { text-align: center; color: #333; }
+
+        /* Стили для кнопок управления Push */
+        .push-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Общие стили кнопок */
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            transition: opacity 0.2s;
+            position: relative; /* Для z-index */
+            z-index: 10;        /* Чтобы кнопки были поверх всего */
+        }
+        button:hover { opacity: 0.9; }
+        button:active { transform: scale(0.98); }
+
+        .btn-success { background: #28a745; }
+        .btn-danger { background: #dc3545; }
+        .btn-primary { background: #007bff; }
+
+        /* Контейнеры форм */
+        .form-container {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .form-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        input[type="text"], input[type="datetime-local"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            flex-grow: 1;
+            min-width: 200px;
+        }
+
+        ul { list-style: none; padding: 0; margin-top: 20px; }
+        li {
+            background: white;
+            padding: 15px;
+            margin-bottom: 8px;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* Всплывающее уведомление внутри страницы */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            z-index: 9999;
+            animation: slideIn 0.3s ease-out forwards;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>⏰ Задачи с Напоминаниями</h1>
+    
+    <!-- Кнопки Push -->
+    <div class="push-controls">
+        <button id="enable-push" type="button" class="btn-success">🔔 Включить Push</button>
+        <button id="disable-push" type="button" class="btn-danger" style="display:none;">🔕 Отключить Push</button>
+    </div>
+
+    <!-- Форма 1: Обычная задача -->
+    <div class="form-container">
+        <h3>Новая задача</h3>
+        <div class="form-group">
+            <input type="text" id="taskInput" placeholder="Что нужно сделать?">
+            <button id="addBtn" type="button" class="btn-primary">Добавить</button>
+        </div>
+    </div>
+
+    <!-- Форма 2: Задача с напоминанием -->
+    <div class="form-container">
+        <h3>Задача с напоминанием</h3>
+        <div class="form-group">
+            <input type="text" id="reminderText" placeholder="Текст напоминания...">
+            <input type="datetime-local" id="reminderTime">
+            <button id="addReminderBtn" type="button" class="btn-success">Напомнить</button>
+        </div>
+    </div>
+
+    <ul id="taskList"></ul>
+
+    <!-- Подключение Socket.IO -->
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <!-- Твой скрипт логики -->
+    <script src="app.js"></script>
+</body>
+</html>
